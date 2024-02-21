@@ -5,6 +5,10 @@ bool ReadSocket(const int socket, char *buffer, const size_t target_receive_size
     size_t received_size = 0;
     
     while(received_size < target_receive_size){
+
+        // fprintf(stderr, "%zd = receive_size\n", received_size);
+        // fprintf(stderr, "%zd = target_receive_size\n", target_receive_size);
+
         size_t remaining_receive_size = target_receive_size - received_size;
         ssize_t current_receive_size = recv(
             socket, buffer + received_size, remaining_receive_size, 0);
@@ -13,6 +17,7 @@ bool ReadSocket(const int socket, char *buffer, const size_t target_receive_size
         }
 
         received_size += current_receive_size;
+
     }
 
     return true;

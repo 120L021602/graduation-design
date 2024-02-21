@@ -8,10 +8,14 @@ bool CheckTimestamp(uint64_t timestamp){
     // 将 time_t 类型的时间戳转换为 uint64_t 类型
     uint64_t currentTimeUint64 = (uint64_t)currentTime;
 
-    // 若时间间隔小于1秒，则通过
-    if((currentTimeUint64 - timestamp) < 1){
+    // 定义一个合理的时间戳范围
+    uint64_t reasonableRange = 5;
+
+    // 若时间间隔小于5秒，则通过
+    if(currentTimeUint64 - timestamp < reasonableRange){
         return true;
     }
-
-    return false;
+    else{
+        return false;
+    }
 }
