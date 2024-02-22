@@ -139,14 +139,18 @@ int main()
     // 接收bob的签名公钥pksb
     // memset(buffer, 0, sizeof(buffer));
     if(!ReadSocket(sock, pksb, sig_a->length_public_key)){
-        fprintf(stderr, "alice failed to receive pksb.\n");
+        fprintf(stderr, "Alice failed to receive pksb.\n");
         return -1;
     }
+
+    printf("Alice successfully received pksb!\n");
 
     // pksb = (uint8_t *)buffer;
 
 
     // 向bob发送签名公钥pksa
+    printf("Alice sends pksa to Bob.\n");
+
     send(sock, pksa, sig_a->length_public_key, 0);
 
     // pkn||timestamp
@@ -227,6 +231,8 @@ int main()
     // 此时signed_message_1已经是pkn_timestamp的签名和pkn_timestamp拼接的结果了
 
     // 向bob发送signed_message_1
+    printf("Alice sends signed_message_1 to Bob.\n");
+
     send(sock, signed_message_1, length_signed_message_1, 0);
 
     // fprintf(stderr, "难道是这里有问题？\n");
@@ -247,7 +253,7 @@ int main()
         return -1;
     }
 
-    
+    printf("Alice successfully received signed_message_2!\n");
     // fprintf(stderr, "这里不可能有问题？\n");
     // receive_signed_message_2 = buffer;
 
@@ -288,6 +294,8 @@ int main()
 		return OQS_ERROR;
 	}
 
+    printf("Signature of signed_message_2 is successfully verified!\n");
+
     // 若验签成功，则检查时间戳
     uint64_t receive_timestamp_2;
     receive_timestamp_2 = *(uint64_t *)(receive_ciphertext_timestamp + kem->length_ciphertext);
@@ -297,7 +305,7 @@ int main()
     }
 
     // 时间戳通过检验
-    printf("Successfully verify signed message two!\n");
+    printf("Timestamp of signed_message_2 is successfully verified!\n");
 
     // fprintf(stderr, "5");
     // 获取ciphertext

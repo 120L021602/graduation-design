@@ -134,7 +134,8 @@ int main()
     // printf("Hello message sent\n");
 
     // 向alice发送签名公钥pksb
-    // size_t pksb_length = 2592;
+    printf("Bob sends pksa to Alice.\n");
+
     send(new_socket, pksb, sig_b->length_public_key, 0);
     
     // 接收alice的公钥pksa
@@ -143,6 +144,8 @@ int main()
         fprintf(stderr, "Bob failed to receive pksa.\n");
         return -1;
     }
+
+    printf("Bob successfully received pksa!\n");
 
     // pksa = (uint8_t *)buffer;
 
@@ -163,6 +166,8 @@ int main()
         fprintf(stderr, "bob failed to receive signed_message_1.\n");
         return -1;
     }
+
+    printf("Bob successfully received signed_messasge_1!\n");
 
     // receive_signed_message_1 = buffer;
 
@@ -200,6 +205,8 @@ int main()
 		return OQS_ERROR;
 	}
 
+    printf("Signature of signed_message_1 is successfully verified!\n");
+
     //若验签成功，则检查时间戳
     uint64_t receive_timestamp;
     receive_timestamp = *(uint64_t *)(receive_pkn_timestamp + kem->length_public_key);
@@ -209,7 +216,7 @@ int main()
     }
 
     // 时间戳通过检验
-    printf("Successfully verify signed message one!\n");
+    printf("Timestamp of signed_message_1 is successfully verified!\n");
 
     // fprintf(stderr, "1");
     // 获取kyber的协商公钥pkn
@@ -290,6 +297,8 @@ int main()
 
     // fprintf(stderr, "7");
     // 向alice发送signed_message_2
+    printf("Bob sends signed_message_2 to Alice.\n");
+
     send(new_socket, signed_message_2, sig_b->length_signature + kem->length_ciphertext + sizeof(uint64_t), 0);
 
     // 至此，协议中bob的部分已经运行完毕
@@ -300,6 +309,8 @@ int main()
     for(int i = 0; i < kem->length_shared_secret; i ++){
         printf("%02hhX", shared_secret[i]);
     }
+
+    printf("\n");
 
     // 释放堆内存
     free(sig_b);
